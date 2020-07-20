@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <% include ../partial/head %>
+  </head>
+  <body data-background-color="dark">
+    <div class="wrapper">
+      <% include ../partial/header %>
+
+      <!-- Sidebar -->
+      <% include ../partial/sidebar %>
+      <!-- End Sidebar -->
+
+      <div class="main-panel">
+        <div class="content">
+          <div class="page-inner">
+            <div class="page-header">
+              <h4 class="page-title">Forms</h4>
+              <ul class="breadcrumbs">
+                <li class="nav-home">
+                  <a href="#">
+                    <i class="flaticon-home"></i>
+                  </a>
+                </li>
+                <li class="separator">
+                  <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                  <a href="#">Forms</a>
+                </li>
+                <li class="separator">
+                  <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                  <a href="#">Basic Form</a>
+                </li>
+              </ul>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-title">User Add</div>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-10 col-lg-10"></div>
+                      <form action="/users/useradd" method="post" id="myForm">
+                        
+                          <div class="form-group">
+                            <label for="name">User Name</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="name"
+                              name="uname"
+                              placeholder="Enter Name"
+                            />
+                          </div>
+                          <div class="form-group">
+                            <label for="email2">Email Address</label>
+                            <input
+                              type="email"
+                              class="form-control"
+                              id="email2"
+                              name="uemail"
+                              placeholder="Enter Email"
+                            />
+                            <small id="emailHelp2" class="form-text text-muted"
+                              >We'll never share your email with anyone
+                              else.</small
+                            >
+                          </div>
+                          <div class="form-group">
+                            <label for="password">Password</label>
+                            <input
+                              type="password"
+                              class="form-control"
+                              id="password"
+                              name="pwd"
+                              placeholder="Password"
+                            />
+                          </div>
+                        </div>
+                      
+                    </div>
+                  </div>
+                  <div class="card-action">
+                    <button class="btn btn-success" type="submit">
+                      Submit
+                    </button>
+                    <button class="btn btn-danger">Cancel</button>
+                  </div>
+                </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% include ../partial/footer %>
+      </div>
+
+      <!-- Custom template | don't include it in your project! -->
+      <% include ../partial/custom %>
+      <!-- End Custom template -->
+    </div>
+    <!--   Core JS Files   -->
+    <% include ../partial/script %>
+  </body>
+  <script src="/javascripts/jquery.validate.min.js"></script>
+  <script>
+    $("#myForm").validate({
+      rules: {
+        uname: {
+          required: true,
+          minlength: 5,
+        },
+        uemail: {
+          required: true,
+          emailExt: true,
+        },
+        pwd: {
+          required: true,
+          minlength: 8,
+          pwcheck: true,
+        },
+      },
+      messages: {
+        uname: {
+          required: "Name field need to insert",
+        },
+        uemail: {
+          required: "Email field need to insert",
+        },
+        pwd: {
+          required: "Password field need to insert",
+          pwcheck: "Please enter 1 uppercase, 1 lowercase and 1 digit",
+        },
+      },
+    });
+    $.validator.addMethod("pwcheck", function (value) {
+      return (
+        /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) && // consists of only these
+        /[a-z]/.test(value) && // has a lowercase letter
+        /\d/.test(value)
+      ); // has a digit
+    });
+    jQuery.validator.addMethod(
+      "emailExt",
+      function (value, element, param) {
+        return value.match(
+          /^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/
+        );
+      },
+      "Your E-mail is wrong"
+    );
+  </script>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Add</title>
+  </head>
+  <body>
+    <h1>User Add Here</h1>
+    <form action="/users/useradd" method="post" id="myForm">
+      <label for="name">User Name</label>
+      <input type="text" name="uname" id="name" />
+      <p></p>
+      <label for="email">User Email</label>
+      <input type="email" name="uemail" id="email" />
+      <p></p>
+      <label for="pwd">Password</label>
+      <input type="password" name="pwd" id="pwd" />
+      <p></p>
+      <input type="submit" value="Add" />
+    </form>
+  </body>
+  <script src="/javascripts/jquery-3.5.1.min.js"></script>
+  <script src="/javascripts/jquery.validate.min.js"></script>
+  <script>
+    $("#myForm").validate({
+      rules: {
+        uname: {
+          required: true,
+          minlength: 5,
+        },
+        uemail: {
+          required: true,
+          emailExt: true,
+        },
+        pwd: {
+          required: true,
+          minlength: 8,
+          pwcheck: true,
+        },
+      },
+      messages: {
+        uname: {
+          required: "Name field need to insert",
+        },
+        uemail: {
+          required: "Email field need to insert",
+        },
+        pwd: {
+          required: "Password field need to insert",
+          pwcheck: "Please enter 1 uppercase, 1 lowercase and 1 digit",
+        },
+      },
+    });
+    $.validator.addMethod("pwcheck", function (value) {
+      return (
+        /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) && // consists of only these
+        /[a-z]/.test(value) && // has a lowercase letter
+        /\d/.test(value)
+      ); // has a digit
+    });
+    jQuery.validator.addMethod(
+      "emailExt",
+      function (value, element, param) {
+        return value.match(
+          /^[a-zA-Z0-9_\.%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}$/
+        );
+      },
+      "Your E-mail is wrong"
+    );
+  </script>
+</html> -->
