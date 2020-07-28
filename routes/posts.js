@@ -2,6 +2,8 @@ var express = require("express");
 var router = express.Router();
 var Post = require("../model/Post");
 var User = require("../model/User");
+var multer = require("multer");
+var upload = multer({ dest: "public/images/uploads" });
 
 router.get("/add", function (req, res) {
   User.find(function (err, rtn) {
@@ -10,10 +12,11 @@ router.get("/add", function (req, res) {
   });
 });
 
-router.post("/add", function (req, res) {
+router.post("/add", upload.single("photo"), function (req, res) {
   var post = new Post();
   post.title = req.body.title;
   post.content = req.body.content;
+  if (req.file) post.imgUrl = "/images/uploads/" + req.file.filename;
   post.author = req.body.author;
   post.save(function (err, rtn) {
     if (err) throw err;
